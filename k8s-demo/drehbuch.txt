@@ -1,0 +1,55 @@
+Cluster
+-------
+1. kubectl																								--> kommunizieren mit der kube-api
+2. kubectl cluster-info																					--> info über cluster
+3. kubect get nodes 						     														--> zeigt Knoten: master und zwei worker
+
+
+deploy stack
+------------
+1. ansible-playbook deploy_stack.yml -e "env=dev namespace=nodejs-demo-dev"								--> stack ist deployed
+1. ansible-playbook deploy_stack.yml -e "env=dev namespace=springboot-demo-dev"							--> stack ist deployed
+
+
+Pods
+----
+1. kubectl get ns 																						--> zeige alle namespaces
+2. kubectl --namespace=nodejs-demo-dev get po -o wide													--> zeigt pods im nodejs-demo-dev namespace
+3. curl ...					 																			--> schlägt fehlpods laufen nur intern im cluster
+4. kubectl run dnstutils --image=dschuldt/dnsutils --generator=run-pod/v1								--> einfachen container mit netzwerk tools laufen lassen
+5. kubectl exec dnstutils -- nc -zv ...																	--> teste verbindung zu einem pod
+6. kubectl exec dnstutils -- curl -sSL ...																--> zeige output der nodejs app
+7. kubectl --namespace=nodejs-demo-dev delete po ...													--> Konzept der ReplicaSets
+8. kubectl --namespace=nodejs-demo-dev get rs 															--> zeige ReplicaSets
+9. kubectl --namespace=nodejs-demo-dev describe rs ...													--> beschreibe ReplicaSets
+
+
+Services
+--------
+1. kubectl --namespace=nodejs-demo-dev get svc															--> zeige services
+2. kubectl --namespace=nodejs-demo-dev describe svc ...													--> beschreibe service
+3. kubectl exec dnstutils -- curl -sSL nodejs-demo-dev.nodejs-demo-dev.svc 				  				--> zeige output der nodejs app
+4. watch -n 1 kubectl exec dnstutils -- curl -sSL nodejs-demo-dev.nodejs-demo-dev.svc 					--> zeige loadbalancing
+
+
+Ingress
+-------
+1. kubectl --namespace=nodejs-demo-dev get ing
+2. /etc/hosts entry: 192.168.56.102  nodejs-demo-dev.schuldt.lcl
+3. curl -SsL nodejs-demo-dev.schuldt.lcl 																--> zeige output der nodejs app
+4. watch -n 1 curl -SsL nodejs-demo-dev.schuldt.lcl 													--> loadbalancing
+
+Prometheus
+----------
+1. http://prometheus.schuldt.lcl																		--> zeige Prometheus Dashboard
+
+
+Details
+-------
+1. Configmaps
+2. Telegraf Sidekick
+
+Deployment (rolling update)
+---------------------------
+1. kubectl --namespace=nodejs-demo-dev set image deployment/nodejs-demo-dev nodejs-demo-dev=dschuldt/nodejs-demo:1.1 && kubectl --namespace=nodejs-demo-dev rollout status deployment nodejs-demo-dev
+2. curl -SsL nodejs-demo-dev.schuldt.lcl

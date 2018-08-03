@@ -1,0 +1,17 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: nodejs-demo-$environment
+  namespace: $namespace
+  labels:
+    app: nodejs-demo
+    environment: $environment
+spec:
+  rules:
+    - host: nodejs-demo-$environment.schuldt.lcl
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: nodejs-demo-$environment
+              servicePort: http

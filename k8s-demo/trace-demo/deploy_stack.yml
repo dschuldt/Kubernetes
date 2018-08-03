@@ -1,0 +1,15 @@
+- hosts: localhost
+  connection: local
+  tasks:
+    - name: apply stack
+      shell: "envsubst < {{item}}.yml |kubectl apply -f -"
+      loop:
+        - namespaces
+        - configmap
+        - deployment
+        - service_clusterip
+        - ingress
+  environment:
+    namespace: "{{namespace}}"
+    environment: "{{env}}"
+

@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: prometheus
+  name: prometheus
+  labels:
+    app: prometheus
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: prometheus
+  template:
+    metadata:
+      labels:
+        app: prometheus
+    spec:
+      containers:
+        - name: prometheus
+          image: prom/prometheus:v2.3.2
+          ports:
+            - name: http
+              containerPort: 9090
+          env:
+            - name: app
+              value: prometheus
+          volumeMounts:
+            - name: appconfig
+              mountPath: /etc/prometheus/
+              readOnly: true
+            - name: appdata
+              mountPath: /prometheus/
+      volumes:
+        - name: appconfig
+          configMap:
+            name: prometheus
+        - name: appdata
+          persistentVolumeClaim:
+            claimName: prometheus-pvc1

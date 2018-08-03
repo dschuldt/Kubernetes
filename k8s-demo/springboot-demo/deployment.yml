@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: $namespace
+  name: springboot-demo-$environment
+  labels:
+    app: springboot-demo
+    environment: $environment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: springboot-demo
+      environment: $environment
+  template:
+    metadata:
+      labels:
+        app: springboot-demo
+        environment: $environment
+    spec:
+      containers:
+        - name: springboot-demo-$environment
+          image: dschuldt/springboot-demo:1.0
+          ports:
+            - name: http
+              containerPort: 80
+          env:
+            - name: app
+              value: springboot-demo
+            - name: environment
+              value: $environment
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          volumeMounts:
+            - name: appconfig
+              mountPath: /app/config/
+              readOnly: true
+         #   - name: springboot-data
+         #     mountPath: /app-data 
+         #     subPath: app-$environment
+      volumes:
+        - name: appconfig
+          configMap:
+            name: springboot-demo-$environment
+     #   - name: springboot-data
+     #     persistentVolumeClaim:
+     #       claimName: springboot-demo-pvc1
+

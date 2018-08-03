@@ -1,0 +1,15 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: zipkin
+  namespace: zipkin
+  labels:
+    app: zipkin
+spec:
+  type: ClusterIP
+  selector:
+    app: zipkin
+  ports:
+    - name: http
+      port: 80
+      targetPort: http

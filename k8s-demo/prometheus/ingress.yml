@@ -1,0 +1,16 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: prometheus
+  namespace: prometheus
+  labels:
+    app: prometheus
+spec:
+  rules:
+    - host: prometheus.schuldt.lcl
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: prometheus
+              servicePort: http

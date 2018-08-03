@@ -1,0 +1,16 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: zipkin
+  namespace: zipkin
+  labels:
+    app: zipkin
+spec:
+  rules:
+    - host: zipkin.schuldt.lcl
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: zipkin
+              servicePort: http

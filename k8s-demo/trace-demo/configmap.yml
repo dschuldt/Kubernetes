@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: trace-demo-$environment
+  namespace: $namespace
+data:
+  bootstrap.properties: |
+    spring.zipkin.baseUrl = http://zipkin.zipkin.svc
+    spring.sleuth.sampler.probability = 1
+  hello-application.properties: |
+    spring.application.name = hello-service
+    world-service.url = http://world-service.trace-demo-$environment.svc/world  
+  world-application.properties: |
+    spring.application.name = world-service

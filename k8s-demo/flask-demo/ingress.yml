@@ -1,0 +1,17 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: flask-demo-$environment
+  namespace: $namespace
+  labels:
+    app: flask-demo
+    environment: $environment
+spec:
+  rules:
+    - host: flask-demo-$environment.schuldt.lcl
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: flask-demo-$environment
+              servicePort: http

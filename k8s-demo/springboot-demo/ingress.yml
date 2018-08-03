@@ -1,0 +1,17 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: springboot-demo-$environment
+  namespace: $namespace
+  labels:
+    app: springboot-demo
+    environment: $environment
+spec:
+  rules:
+    - host: springboot-demo-$environment.schuldt.lcl
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: springboot-demo-$environment
+              servicePort: http

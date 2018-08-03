@@ -1,0 +1,37 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: hello-service
+  namespace: $namespace
+  labels:
+    app: trace-demo
+    environment: $environment
+spec:
+  type: ClusterIP
+  selector:
+    app: hello-service
+    environment: $environment
+  ports:
+    - name: http
+      port: 80
+      targetPort: http
+
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: world-service
+  namespace: $namespace
+  labels:
+    app: trace-demo
+    environment: $environment
+spec:
+  type: ClusterIP
+  selector:
+    app: world-service
+    environment: $environment
+  ports:
+    - name: http
+      port: 80
+      targetPort: http

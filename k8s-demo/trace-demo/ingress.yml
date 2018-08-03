@@ -1,0 +1,24 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: trace-demo-$environment
+  namespace: $namespace
+  labels:
+    app: trace-demo
+    environment: $environment
+spec:
+  rules:
+    - host: hello-service-$environment.schuldt.lcl
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: hello-service
+              servicePort: http
+    - host: world-service-$environment.schuldt.lcl
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: world-service
+              servicePort: http

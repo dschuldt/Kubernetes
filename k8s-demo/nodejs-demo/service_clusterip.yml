@@ -1,0 +1,37 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: nodejs-demo-$environment
+  namespace: $namespace
+  labels:
+    app: nodejs-demo
+    environment: $environment
+spec:
+  type: ClusterIP
+  selector:
+    app: nodejs-demo
+    environment: $environment
+  ports:
+    - name: http
+      port: 80
+      targetPort: http
+
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: nodejs-demo-$environment-metrics
+  namespace: $namespace
+  labels:
+    app: nodejs-demo
+    environment: $environment
+spec:
+  type: ClusterIP
+  selector:
+    app: nodejs-demo
+    environment: $environment
+  ports:
+    - name: http
+      port: 80
+      targetPort: prometheus

@@ -1,0 +1,80 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: $namespace
+  name: hello-service-$environment
+  labels:
+    app: hello-service
+    environment: $environment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hello-service
+      environment: $environment
+  template:
+    metadata:
+      labels:
+        app: hello-service
+        environment: $environment
+    spec:
+      containers:
+        - name: hello-service-$environment
+          image: dschuldt/hello-service:1.0
+          ports:
+            - name: http
+              containerPort: 8080
+          volumeMounts:
+            - name: appconfig
+              mountPath: /app/config/application.properties
+              subPath: hello-application.properties
+              readOnly: true
+            - name: appconfig
+              mountPath: /app/config/bootstrap.properties
+              subPath: bootstrap.properties
+              readOnly: true  
+      volumes:
+        - name: appconfig
+          configMap:
+            name: trace-demo-$environment
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: $namespace
+  name: world-service-$environment
+  labels:
+    app: world-service
+    environment: $environment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: world-service
+      environment: $environment
+  template:
+    metadata:
+      labels:
+        app: world-service
+        environment: $environment
+    spec:
+      containers:
+        - name: world-service-$environment
+          image: dschuldt/world-service:1.0
+          ports:
+            - name: http
+              containerPort: 8080
+          volumeMounts:
+            - name: appconfig
+              mountPath: /app/config/application.properties
+              subPath: world-application.properties
+              readOnly: true
+            - name: appconfig
+              mountPath: /app/config/bootstrap.properties
+              subPath: bootstrap.properties
+              readOnly: true        
+      volumes:
+        - name: appconfig
+          configMap:
+            name: trace-demo-$environment
