@@ -12,5 +12,5 @@ spec:
   persistentVolumeReclaimPolicy: Recycle
   storageClassName: network-share
   nfs:
-    path: /a/path
-    server: a.server.address
+    path: /volume1/kubernetes_volumes/prometheus
+    server: nas.schuldt.lcl
