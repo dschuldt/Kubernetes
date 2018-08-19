@@ -1,0 +1,51 @@
+# ---------- Namespace ---------- #
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: jenkins
+  labels:
+    name: jenkins
+    app: jenkins
+
+---
+
+# ---------- Persistent Volume ---------- #
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: jenkins-slave
+  labels:
+    app: jenkins-slave
+spec:
+  capacity:
+    storage: 2Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Recycle
+  storageClassName: network-share
+  nfs:
+    path:   /volume1/kubernetes_volumes/jenkins-slave
+    server: nas.schuldt.lcl
+
+---
+
+# ---------- Persistent Volume Claim ---------- #
+
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: jenkins-slave-pvc1
+  namespace: jenkins
+  labels:
+    app: jenkins-slave
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: network-share
+
+---
