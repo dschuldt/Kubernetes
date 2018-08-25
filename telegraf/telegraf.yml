@@ -1,0 +1,118 @@
+# ---------- Namespace ---------- #
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: telegraf
+  labels:
+    name: telegraf
+    app: telegraf
+
+---
+
+# ---------- Daemon Set ---------- #
+
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: telegraf
+  namespace: telegraf
+  labels:
+    app: telegraf
+spec:
+  selector:
+    matchLabels:
+      name: telegraf
+  template:
+    metadata:
+      labels:
+        name: telegraf
+    spec:
+      tolerations:
+      - key: node-role.kubernetes.io/master
+        effect: NoSchedule
+      containers:
+      - name: telegraf
+        image: dschuldt/telegraf:latest
+        env:
+          - name: HOST_ETC
+            value: /hostfs/etc  
+          - name: HOST_PROC
+            value: /hostfs/proc 
+          - name: HOST_SYS
+            value: /hostfs/sys    
+        ports:
+          - name: prometheus
+            containerPort: 9273
+            hostPort: 9273
+        volumeMounts:
+          - name: hostfs
+            mountPath: /hostfs
+            readOnly: true
+          - name: telegraf-config
+            mountPath: /telegraf.conf
+            subPath: telegraf.conf     
+      volumes:
+        - name: hostfs
+          hostPath: 
+            path: /
+        - name: telegraf-config
+          configMap:
+            name: telegraf
+
+---
+
+# ---------- Service ---------- #
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: telegraf-http
+  namespace: telegraf
+  labels:
+    app: telegraf
+spec:
+  type: ClusterIP
+  selector:
+    app: telegraf
+  ports:
+    - name: http
+      port: 80
+      targetPort: prometheus
+
+---
+
+# ---------- Configmap ---------- #
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: telegraf
+  namespace: telegraf
+data:
+  telegraf.conf:  |
+    [[inputs.cpu]]
+      percpu = true
+      totalcpu = true
+      collect_cpu_time = false
+      report_active = false
+
+    [[inputs.disk]]
+      ignore_fs = ["tmpfs", "devtmpfs", "devfs", "overlay", "aufs", "squashfs"]
+    
+    [[inputs.diskio]]
+    
+    [[inputs.kernel]]
+    
+    [[inputs.mem]]
+    
+    [[inputs.processes]]
+    
+    [[inputs.swap]]
+    
+    [[inputs.system]]
+
+    [[outputs.prometheus_client]]
+      listen = ":9273"
+      path = "/metrics"
+      expiration_interval = "60s"
