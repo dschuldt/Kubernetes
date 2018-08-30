@@ -67,7 +67,7 @@ spec:
 kind: Service
 apiVersion: v1
 metadata:
-  name: telegraf-http
+  name: telegraf
   namespace: telegraf
   labels:
     app: telegraf
@@ -76,8 +76,8 @@ spec:
   selector:
     app: telegraf
   ports:
-    - name: http
-      port: 80
+    - name: prometheus
+      port: 9273
       targetPort: prometheus
 
 ---

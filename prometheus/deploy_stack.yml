@@ -9,7 +9,5 @@
         - deployment
         - service_clusterip
         - ingress
-  environment:
-    namespace: "{{namespace}}"
-    environment: "{{env}}"
-
+        - persistent_volume
+        - persistent_volume_claim
