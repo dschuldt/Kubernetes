@@ -15,13 +15,10 @@ metadata:
 # ---- SERVICEACCOUNT ---- #
 
 apiVersion: v1
-kind: ConfigMap
+kind: ServiceAccount
 metadata:
   name: 
   namespace: 
-data:
-  a.file: |
-    apiVersion: apps/v1
 
 
 ---
@@ -43,7 +40,6 @@ subjects:
 - kind: ServiceAccount
   name: 
   namespace: 
-kind: Service
 
 
 ---
@@ -51,6 +47,7 @@ kind: Service
 
 # ---- DEPLOYMENT ---- #
 
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   namespace: 
@@ -92,6 +89,7 @@ spec:
 # ---- SERVICE ---- #
 
 apiVersion: v1
+kind: Service
 metadata:
   name: 
   namespace: 
@@ -128,3 +126,18 @@ spec:
             backend:
               serviceName: 
               servicePort: 
+
+
+---
+
+
+# ---- CONFIGMAP ---- #
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: 
+  namespace: 
+data:
+  a.file: |
+    data
