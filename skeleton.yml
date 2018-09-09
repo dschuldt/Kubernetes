@@ -66,21 +66,21 @@ spec:
     spec:
       serviceAccountName: default
       containers:
+      - name: 
+        image: 
+        ports:
         - name: 
-          image: 
-          ports:
-            - name: 
-              containerPort: 
-          env:
-            - name:
-              value: 
-          volumeMounts:
-            - name: 
-              mountPath: 
+          containerPort: 
+        env:
+        - name:
+          value: 
+        volumeMounts:
+        - name: 
+          mountPath: 
       volumes:
-        - name: 
-          configMap:
-            name: 
+      - name: 
+        configMap:
+          name: 
 
 
 ---
@@ -100,9 +100,9 @@ spec:
   selector:
     app: 
   ports:
-    - name: 
-      port: 
-      targetPort: 
+  - name: 
+    port: 
+    targetPort: 
 
 
 ---
@@ -119,13 +119,13 @@ metadata:
     app: 
 spec:
   rules:
-    - host: 
-      http:
-        paths:
-          - path: /
-            backend:
-              serviceName: 
-              servicePort: 
+  - host: 
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: 
+          servicePort: 
 
 
 ---
