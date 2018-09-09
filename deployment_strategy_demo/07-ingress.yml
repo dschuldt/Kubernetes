@@ -1,0 +1,16 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: bottle-demo
+  namespace: bottle-demo
+  labels:
+    app: bottle-demo
+spec:
+  rules:
+  - host: bottle-demo.schuldt.lcl
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: bottle-demo-v1-0
+          servicePort: 80

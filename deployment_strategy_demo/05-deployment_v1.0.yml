@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: bottle-demo
+  name: bottle-demo-v1-0
+  labels:
+    app: bottle-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bottle-demo
+      version: "1.0"
+  template:
+    metadata:
+      labels:
+        app: bottle-demo
+        version: "1.0"
+    spec:
+      serviceAccountName: default
+      containers:
+      - name: bottle-demo
+        image: dschuldt/bottle-demo:1.0
+        ports:
+        - name: http
+          containerPort: 80
