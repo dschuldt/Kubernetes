@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: 
+  namespace: 
+  labels:
+    app: 
+spec:
+  selector:
+    matchLabels:
+      name: 
+  template:
+    metadata:
+      labels:
+        name: 
+    spec:
+      tolerations:
+      - key: node-role.kubernetes.io/master
+        effect: NoSchedule
+      containers:
+      - name: 
+        image: 
+        env:
+        - name: 
+          value: 
+        ports:
+        - name: 
+          containerPort: 
+        volumeMounts:
+        - name: 
+          mountPath: 
+          subPath: 
+      volumes:
+      - name: 
+        hostPath: 
+          path: 
+      - name: 
+        configMap:
+          name: 

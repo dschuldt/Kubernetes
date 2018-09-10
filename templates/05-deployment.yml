@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: 
+  name: 
+  labels:
+    app: 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: 
+  template:
+    metadata:
+      labels:
+        app: 
+    spec:
+      serviceAccountName: default
+      containers:
+      - name: 
+        image:
+        command: [""]
+        args: [""] 
+        ports:
+        - name: 
+          containerPort: 
+        env:
+        - name:
+          value: 
+        volumeMounts:
+        - name: 
+          mountPath: 
+      volumes:
+      - name: 
+        hostPath: 
+          path:   
+      - name: 
+        configMap:
+          name: 

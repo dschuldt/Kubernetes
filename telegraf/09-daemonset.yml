@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: telegraf
+  namespace: telegraf
+  labels:
+    app: telegraf
+spec:
+  selector:
+    matchLabels:
+      name: telegraf
+  template:
+    metadata:
+      labels:
+        name: telegraf
+    spec:
+      tolerations:
+      - key: node-role.kubernetes.io/master
+        effect: NoSchedule
+      containers:
+      - name: telegraf
+        image: dschuldt/telegraf:latest
+        env:
+        - name: HOST_ETC
+          value: /hostfs/etc  
+        - name: HOST_PROC
+          value: /hostfs/proc 
+        - name: HOST_SYS
+          value: /hostfs/sys    
+        ports:
+        - name: prometheus
+          containerPort: 9273
+          hostPort: 9273
+        volumeMounts:
+        - name: hostfs
+          mountPath: /hostfs
+          readOnly: true
+        - name: telegraf-config
+          mountPath: /telegraf.conf
+          subPath: telegraf.conf     
+      volumes:
+      - name: hostfs
+        hostPath: 
+          path: /
+      - name: telegraf-config
+        configMap:
+          name: telegraf

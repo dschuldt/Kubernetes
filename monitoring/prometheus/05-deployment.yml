@@ -15,25 +15,18 @@ spec:
       labels:
         app: prometheus
     spec:
+      serviceAccountName: prometheus
       containers:
         - name: prometheus
           image: prom/prometheus:v2.3.2
           ports:
             - name: http
               containerPort: 9090
-          env:
-            - name: app
-              value: prometheus
           volumeMounts:
-            - name: appconfig
+            - name: prometheus-config
               mountPath: /etc/prometheus/
               readOnly: true
-            - name: appdata
-              mountPath: /prometheus/
       volumes:
-        - name: appconfig
+        - name: prometheus-config
           configMap:
             name: prometheus
-        - name: appdata
-          persistentVolumeClaim:
-            claimName: prometheus-pvc1

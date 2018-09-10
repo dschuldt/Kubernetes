@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: telegraf
+  namespace: telegraf
+data:
+  telegraf.conf:  |
+    [[inputs.cpu]]
+      percpu = true
+      totalcpu = true
+      collect_cpu_time = false
+      report_active = false
+
+    [[inputs.disk]]
+      ignore_fs = ["tmpfs", "devtmpfs", "devfs", "overlay", "aufs", "squashfs"]
+    
+    [[inputs.diskio]]
+    
+    [[inputs.kernel]]
+    
+    [[inputs.mem]]
+    
+    [[inputs.processes]]
+    
+    [[inputs.swap]]
+    
+    [[inputs.system]]
+
+    [[outputs.prometheus_client]]
+      listen = ":9273"
+      path = "/metrics"
+      expiration_interval = "60s"
