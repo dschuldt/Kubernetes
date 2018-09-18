@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: default
+  name: dnsutils
+  labels:
+    app: dnsutils
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dnsutils
+  template:
+    metadata:
+      labels: 
+        app: dnsutils
+    spec:
+      serviceAccountName: default
+      containers:
+      - name: dnsutils
+        image: dschuldt/dnsutils:latest
+        volumeMounts:
+        - name: storage
+          mountPath: /storage
+      volumes:
+      - name: storage
+        persistentVolumeClaim:
+          claimName: dnsutils-pvc1

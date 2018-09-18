@@ -37,3 +37,6 @@ spec:
       - name: 
         configMap:
           name: 
+      - name: 
+        persistentVolumeClaim:
+          claimName:

@@ -7,7 +7,7 @@ metadata:
     app: prometheus
 spec:
   rules:
-    - host: prometheus.schuldt.lcl
+    - host: prometheus.k8s.schuldt.lcl
       http:
         paths:
           - path: /
